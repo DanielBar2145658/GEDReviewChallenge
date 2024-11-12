@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     float speed;
     private Vector2 inputRaw;
 
+    private float jumpForce = 10f;
+
     void Awake()
     {
         inputActions = new InputSystem_Actions();
@@ -27,35 +29,18 @@ public class Player : MonoBehaviour
         
     }
 
-    private void Move_performed()
-    {
-        Vector2 inputMovement = inputActions.Player.Move.ReadValue<Vector2>();
-        inputRaw = new Vector2(inputMovement.x, 0);
-    }
-
+ 
     private void Jump_performed(InputAction.CallbackContext callbackContext)
     {
-        rb.AddForce(new Vector2(0, 4), ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
 
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
+ 
     private void FixedUpdate()
     {
-        Move_performed();
+        Vector2 inputMovement = inputActions.Player.Move.ReadValue<Vector2>();
+        rb.linearVelocityX = inputMovement.x * speed ;
     }
 
 
