@@ -1581,7 +1581,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1608,6 +1608,7 @@ MonoBehaviour:
   DLLHeight: 5
   rb: {fileID: 1805279201}
   speed: 5
+  jumpForce: 5
 --- !u!1001 &1308208120686217948
 PrefabInstance:
   m_ObjectHideFlags: 0

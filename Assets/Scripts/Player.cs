@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    // Import functions from DLL
+    [DllImport("PLayerJumpHeightDLL.dll")]
+    private static extern void SetJumpHeight(float newJumpHeight);
 
-/*
-    [DllImport("DllHeight.dll")]
-    public static extern void initHeight(int DLLHeight);
-    //public static extern int setHeight(int a);
+    [DllImport("PlayerJumpHeightDLL.dll")]
+    private static extern float GetJumpHeight();
 
-    [DllImport("DllHeight.dll")]
-    public static extern int getHeight();
-*/
+
+
     [SerializeField]
     int DLLHeight;
 
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     float speed;
     private Vector2 inputRaw;
 
-    private float jumpForce = 10f;
+    [SerializeField] float jumpForce = 5f;
 
     void Awake()
     {
@@ -38,18 +38,23 @@ public class Player : MonoBehaviour
 
         inputActions.Player.Jump.performed += Jump_performed;
 
-
-        
-        
-
-        
+        Debug.Log("current jump force = " + jumpForce);
+     
+   
     }
-
-    private void Start()
+    private void Update()
     {
-       
-    }
+        if (Input.GetKeyDown(KeyCode.N)) 
+        {
+            jumpForce = GetJumpHeight();
 
+            ModifyJumpHeight(jumpForce);
+
+            Debug.Log("new jump force =" + jumpForce);
+        
+        }
+
+    }
 
     private void Jump_performed(InputAction.CallbackContext callbackContext)
     {
@@ -74,11 +79,12 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+
+    public void ModifyJumpHeight(float newJumpHeight)
+    {
+        SetJumpHeight(newJumpHeight);
+    }
+
+
 }
 
-[System.Serializable]
-class Height
-{
-    
-    public int heightincrease;
-}
