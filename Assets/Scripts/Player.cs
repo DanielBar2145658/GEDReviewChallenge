@@ -1,9 +1,23 @@
 using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
 
 public class Player : MonoBehaviour
 {
+
+/*
+    [DllImport("DllHeight.dll")]
+    public static extern void initHeight(int DLLHeight);
+    //public static extern int setHeight(int a);
+
+    [DllImport("DllHeight.dll")]
+    public static extern int getHeight();
+*/
+    [SerializeField]
+    int DLLHeight;
 
     InputSystem_Actions inputActions;
 
@@ -24,15 +38,22 @@ public class Player : MonoBehaviour
 
         inputActions.Player.Jump.performed += Jump_performed;
 
+
+        
         
 
         
     }
 
- 
+    private void Start()
+    {
+       
+    }
+
+
     private void Jump_performed(InputAction.CallbackContext callbackContext)
     {
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * (jumpForce ), ForceMode2D.Impulse);
     }
 
 
@@ -49,7 +70,15 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("Finish")) 
         {
             GameManager.Instance.playerData.AddScore(500);
-            GameManager.Instance.UpdateText();
+            //GameManager.Instance.UpdateText();
+            SceneManager.LoadScene(0);
         }
     }
+}
+
+[System.Serializable]
+class Height
+{
+    
+    public int heightincrease;
 }
